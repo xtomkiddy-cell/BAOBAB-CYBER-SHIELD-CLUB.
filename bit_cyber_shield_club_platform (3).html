@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIT CYBER SHIELD CLUB | Baobab Institute of Tanzania</title>
+    <meta name="description" content="Official platform for BIT Cyber Shield Club at Baobab Institute of Tanzania. Empowering tech enthusiasts, cybersecurity students, and innovators.">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            950: '#030509',
+                            900: '#05070c',
+                            800: '#0a0f1d',
+                            700: '#111827',
+                            600: '#1f293d',
+                        },
+                        electric: '#00bfff',
+                        neon: '#00ff88',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #030509;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(10, 15, 29, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 191, 255, 0.18);
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            background: rgba(15, 23, 42, 0.9);
+            border-color: rgba(0, 255, 136, 0.4);
+            box-shadow: 0 0 25px rgba(0, 255, 136, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030509;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f293d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00bfff;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-neon selection:text-black">
+
+    <!-- DIGITAL CANVAS BACKGROUND -->
+    <canvas id="cyberCanvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0 opacity-20"></canvas>
+
+    <!-- HEADER / NAVIGATION BAR -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-gray-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- LOGO BRANDING -->
+            <a href="#" onclick="switchTab('home'); return false;" class="flex items-center space-x-3 group">
+                <div class="relative w-11 h-11 flex items-center justify-center bg-navy-800 rounded-lg border border-neon/40 group-hover:border-neon transition-all shadow-[0_0_15px_rgba(0,255,136,0.2)]">
+                    <svg class="w-7 h-7 text-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                    <span class="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-neon opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-neon"></span>
+                    </span>
+                </div>
+                <div>
+                    <span class="font-extrabold text-lg tracking-wider text-white flex items-center gap-1.5">
+                        BIT CYBER SHIELD <span class="text-xs px-1.5 py-0.5 rounded bg-neon/10 text-neon border border-neon/30 font-mono">CLUB</span>
+                    </span>
+                    <span class="block text-xs text-gray-400 font-mono tracking-tight">Baobab Institute of Tanzania</span>
+                </div>
+            </a>
+
+            <!-- DESKTOP NAVIGATION LINKS -->
+            <nav class="hidden xl:flex items-center space-x-1 text-sm font-medium">
+                <button onclick="switchTab('home')" id="nav-home" class="nav-btn px-3 py-2 rounded-lg transition-all hover:text-neon text-gray-300">Home</button>
+                <button onclick="switchTab('about')" id="nav-about" class="nav-btn px-3 py-2 rounded-lg transition-all hover:text-neon text-gray-300">About Us</button>
+                <button onclick="switchTab('departments')" id="nav-departments" class="nav-btn px-3 py-2 rounded-lg transition-all hover:text-neon text-gray-300">Departments</button>
+                <button onclick="switchTab('activities')" id="nav-activities" class="nav-btn px-3 py-2 rounded-lg transition-all hover:text-neon text-gray-300">Activities</button>
+                <button onclick="switchTab('learning')" id="nav-learning" class="nav-btn px-3 py-2 rounded-lg transition-all hover:text-neon text-gray-300">Learning Hub</button>
+                <button onclick="switchTab('events')" id="nav-events" class="nav-btn px-3 py-2 rounded-lg transition-all hover:text-neon text-gray-300">Events</button>
+                <button onclick="switchTab('team')" id="nav-team" class="nav-btn px-3 py-2 rounded-lg transition-all hover:text-neon text-gray-300">Team</button>
+                <button onclick="switchTab('contact')" id="nav-contact" class="nav-btn px-3 py-2 rounded-lg transition-all hover:text-neon text-gray-300">Contact</button>
+            </nav>
+
+            <div class="hidden xl:flex items-center space-x-3">
+                <button onclick="switchTab('join')" class="px-5 py-2.5 rounded-lg font-semibold text-sm bg-gradient-to-r from-neon to-electric text-black hover:opacity-90 transition-all shadow-[0_0_20px_rgba(0,255,136,0.3)]">
+                    <i class="fa-solid fa-user-plus mr-1.5"></i> Join Club
+                </button>
+            </div>
+
+            <!-- MOBILE MENU BUTTON -->
+            <button id="mobileMenuBtn" aria-label="Toggle Menu" class="xl:hidden text-gray-300 hover:text-neon p-2 focus:outline-none">
+                <i class="fa-solid fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- MOBILE MENU DROPDOWN -->
+        <div id="mobileMenu" class="hidden xl:hidden border-t border-gray-800 glass-panel px-4 pt-2 pb-6 space-y-2 text-base font-medium">
+            <button onclick="switchTab('home')" class="block w-full text-left px-3 py-2 rounded-md hover:bg-navy-700 hover:text-neon">Home</button>
+            <button onclick="switchTab('about')" class="block w-full text-left px-3 py-2 rounded-md hover:bg-navy-700 hover:text-neon">About Us</button>
+            <button onclick="switchTab('departments')" class="block w-full text-left px-3 py-2 rounded-md hover:bg-navy-700 hover:text-neon">Departments</button>
+            <button onclick="switchTab('activities')" class="block w-full text-left px-3 py-2 rounded-md hover:bg-navy-700 hover:text-neon">Activities</button>
+            <button onclick="switchTab('learning')" class="block w-full text-left px-3 py-2 rounded-md hover:bg-navy-700 hover:text-neon">Learning Hub</button>
+            <button onclick="switchTab('events')" class="block w-full text-left px-3 py-2 rounded-md hover:bg-navy-700 hover:text-neon">Events</button>
+            <button onclick="switchTab('team')" class="block w-full text-left px-3 py-2 rounded-md hover:bg-navy-700 hover:text-neon">Our Team</button>
+            <button onclick="switchTab('contact')" class="block w-full text-left px-3 py-2 rounded-md hover:bg-navy-700 hover:text-neon">Contact</button>
+            <button onclick="switchTab('join')" class="w-full text-center mt-4 px-4 py-2.5 rounded-lg font-bold bg-neon text-black">Join Club</button>
+        </div>
+    </header>
+
+    <!-- ETHICS DISCLAIMER -->
+    <div class="relative z-10 bg-navy-900/90 border-b border-electric/20 py-2.5 px-4 text-xs font-mono text-center text-gray-300">
+        <span class="text-electric font-bold"><i class="fa-solid fa-shield-halved mr-1"></i> ETHICAL COMPLIANCE:</span>
+        All technical exercises at BIT Cyber Shield Club are conducted strictly for legal, educational, and defense purposes.
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <main class="relative z-10 flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- 1. HOME TAB -->
+        <section id="tab-home" class="tab-content active space-y-16">
+            <div class="relative rounded-3xl p-8 md:p-16 border border-neon/20 glass-panel overflow-hidden">
+                <div class="max-w-3xl space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neon/10 border border-neon/30 text-neon font-mono text-xs">
+                        <span class="h-2 w-2 rounded-full bg-neon animate-pulse"></span>
+                        Official Cybersecurity Club of BIT
+                    </div>
+                    
+                    <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tight leading-tight">
+                        Securing the <span class="bg-gradient-to-r from-neon via-electric to-white bg-clip-text text-transparent">Digital Future</span>
+                    </h1>
+                    
+                    <p class="text-lg text-gray-300 leading-relaxed font-light">
+                        Welcome to the official hub of tech innovators, ethical defenders, and security researchers at <strong class="text-white">Baobab Institute of Tanzania</strong>.
+                    </p>
+
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        <button onclick="switchTab('join')" class="px-7 py-3.5 rounded-xl font-bold text-black bg-neon hover:bg-opacity-90 shadow-[0_0_25px_rgba(0,255,136,0.4)] transition-all flex items-center gap-2">
+                            Join Club Now <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <button onclick="switchTab('learning')" class="px-7 py-3.5 rounded-xl font-bold text-white bg-navy-700/80 border border-gray-700 hover:border-electric transition-all flex items-center gap-2">
+                            Learning Resources <i class="fa-solid fa-code"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 pt-8 border-t border-gray-800/80">
+                    <div>
+                        <div class="text-3xl font-extrabold text-neon font-mono">250+</div>
+                        <div class="text-xs text-gray-400 mt-1">Active Members</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-extrabold text-electric font-mono">18+</div>
+                        <div class="text-xs text-gray-400 mt-1">Workshops</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-extrabold text-white font-mono">7</div>
+                        <div class="text-xs text-gray-400 mt-1">Departments</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-extrabold text-neon font-mono">100%</div>
+                        <div class="text-xs text-gray-400 mt-1">Hands-on Labs</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card p-6 rounded-2xl space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-neon/10 border border-neon/30 flex items-center justify-center text-neon text-xl">
+                        <i class="fa-solid fa-bug"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Ethical PenTesting</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">Offensive security research, simulated lab environments, and capture the flag vulnerabilities.</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-electric/10 border border-electric/30 flex items-center justify-center text-electric text-xl">
+                        <i class="fa-solid fa-network-wired"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Network Defense</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">System hardening, packet inspection, firewalls, and real-time threat monitoring.</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 text-xl">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">AI & Innovation</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">Applying machine learning for threat detection and automated code auditing.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. ABOUT TAB -->
+        <section id="tab-about" class="tab-content space-y-8">
+            <div class="glass-panel p-8 md:p-12 rounded-3xl space-y-8">
+                <div>
+                    <span class="text-electric font-mono text-sm uppercase">Our Identity</span>
+                    <h1 class="text-4xl font-extrabold text-white mt-1">About BIT Cyber Shield Club</h1>
+                    <p class="text-gray-300 mt-4 leading-relaxed max-w-4xl">
+                        Founded at the <strong>Baobab Institute of Tanzania (BIT)</strong>, BIT Cyber Shield Club provides practical security education, ethical hacking laboratories, and tech mentorship.
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-gray-800">
+                    <div class="space-y-2">
+                        <h2 class="text-2xl font-bold text-neon"><i class="fa-solid fa-bullseye mr-2"></i> Our Mission</h2>
+                        <p class="text-gray-400 text-sm leading-relaxed">To empower students with hands-on technical skills, promoting ethical hacking principles and defense mechanisms.</p>
+                    </div>
+                    <div class="space-y-2">
+                        <h2 class="text-2xl font-bold text-electric"><i class="fa-solid fa-eye mr-2"></i> Our Vision</h2>
+                        <p class="text-gray-400 text-sm leading-relaxed">To become East Africa's leading student cybersecurity initiative for tech innovation and digital defense.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. DEPARTMENTS TAB -->
+        <section id="tab-departments" class="tab-content space-y-8">
+            <h1 class="text-4xl font-extrabold text-white">Specialized Departments</h1>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card p-6 rounded-2xl space-y-2">
+                    <h3 class="text-xl font-bold text-neon"><i class="fa-solid fa-terminal mr-2"></i> Ethical Hacking</h3>
+                    <p class="text-gray-400 text-sm">Penetration testing, exploitation analysis, and vulnerability audits.</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl space-y-2">
+                    <h3 class="text-xl font-bold text-electric"><i class="fa-solid fa-shield-virus mr-2"></i> Network Security</h3>
+                    <p class="text-gray-400 text-sm">Firewall architectures, IDS/IPS tools, and network traffic analysis.</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl space-y-2">
+                    <h3 class="text-xl font-bold text-purple-400"><i class="fa-solid fa-magnifying-glass-chart mr-2"></i> Digital Forensics</h3>
+                    <p class="text-gray-400 text-sm">Memory forensics, incident response, and malware reverse engineering.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. ACTIVITIES TAB -->
+        <section id="tab-activities" class="tab-content space-y-8">
+            <h1 class="text-4xl font-extrabold text-white">Club Activities</h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-panel p-6 rounded-2xl space-y-2">
+                    <h3 class="text-xl font-bold text-white"><i class="fa-solid fa-flag text-neon mr-2"></i> Capture The Flag (CTF)</h3>
+                    <p class="text-gray-400 text-sm">Jeopardy-style competitions testing web security, cryptography, and reverse engineering.</p>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl space-y-2">
+                    <h3 class="text-xl font-bold text-white"><i class="fa-solid fa-laptop-code text-electric mr-2"></i> Practical Bootcamps</h3>
+                    <p class="text-gray-400 text-sm">Weekly workshops using Linux, Wireshark, Metasploit, and custom Python automation.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. LEARNING HUB TAB -->
+        <section id="tab-learning" class="tab-content space-y-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <h1 class="text-4xl font-extrabold text-white">Learning Hub</h1>
+                <input type="text" id="resourceSearch" placeholder="Search track (e.g. Linux, Python)..." class="bg-navy-800 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-neon w-full md:w-72">
+            </div>
+
+            <div id="resourceGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="resource-card glass-card p-6 rounded-2xl space-y-3" data-keywords="linux shell bash">
+                    <span class="text-xs font-mono text-neon bg-neon/10 px-2.5 py-1 rounded">LINUX</span>
+                    <h3 class="text-lg font-bold text-white">Linux CLI Mastery</h3>
+                    <p class="text-gray-400 text-sm">Permissions model, shell scripting basics, system monitoring, and hardened configurations.</p>
+                </div>
+                <div class="resource-card glass-card p-6 rounded-2xl space-y-3" data-keywords="python automation script">
+                    <span class="text-xs font-mono text-electric bg-electric/10 px-2.5 py-1 rounded">PYTHON</span>
+                    <h3 class="text-lg font-bold text-white">Python for Security</h3>
+                    <p class="text-gray-400 text-sm">Building custom port scanners, parsing security logs, and automating web requests.</p>
+                </div>
+                <div class="resource-card glass-card p-6 rounded-2xl space-y-3" data-keywords="web owasp injection xss">
+                    <span class="text-xs font-mono text-purple-400 bg-purple-500/10 px-2.5 py-1 rounded">WEB SEC</span>
+                    <h3 class="text-lg font-bold text-white">OWASP Top 10 Breakdown</h3>
+                    <p class="text-gray-400 text-sm">Understanding SQL Injection, Cross-Site Scripting, and securing REST APIs.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. EVENTS TAB -->
+        <section id="tab-events" class="tab-content space-y-8">
+            <h1 class="text-4xl font-extrabold text-white">Events Schedule</h1>
+            <div class="glass-panel p-6 rounded-2xl border border-neon/30 space-y-2">
+                <span class="text-xs font-mono px-3 py-1 rounded bg-neon/20 text-neon font-semibold">UPCOMING EVENT</span>
+                <h3 class="text-xl font-bold text-white">BIT Intra-College CTF Championship 2026</h3>
+                <p class="text-gray-400 text-sm">Venue: Main Computer Lab | Date: November 28, 2026</p>
+            </div>
+        </section>
+
+        <!-- 7. TEAM TAB -->
+        <section id="tab-team" class="tab-content space-y-8">
+            <h1 class="text-4xl font-extrabold text-white">Executive Team</h1>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+                <div class="glass-panel p-6 rounded-2xl space-y-2">
+                    <div class="w-16 h-16 mx-auto rounded-full bg-navy-800 border-2 border-neon flex items-center justify-center text-xl text-neon font-bold">CP</div>
+                    <h3 class="text-lg font-bold text-white">Club President</h3>
+                    <p class="text-xs text-gray-400 font-mono">Lead Security Researcher</p>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl space-y-2">
+                    <div class="w-16 h-16 mx-auto rounded-full bg-navy-800 border-2 border-electric flex items-center justify-center text-xl text-electric font-bold">VP</div>
+                    <h3 class="text-lg font-bold text-white">Vice President</h3>
+                    <p class="text-xs text-gray-400 font-mono">Operations Lead</p>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl space-y-2">
+                    <div class="w-16 h-16 mx-auto rounded-full bg-navy-800 border-2 border-purple-400 flex items-center justify-center text-xl text-purple-400 font-bold">TL</div>
+                    <h3 class="text-lg font-bold text-white">Technical Lead</h3>
+                    <p class="text-xs text-gray-400 font-mono">Lab & CTF Engineer</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. JOIN TAB -->
+        <section id="tab-join" class="tab-content space-y-8">
+            <div class="max-w-xl mx-auto glass-panel p-8 rounded-3xl space-y-6">
+                <h1 class="text-3xl font-extrabold text-white text-center">Join BIT Cyber Shield</h1>
+                <form onsubmit="handleFormSubmit(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-mono text-gray-300 mb-1">FULL NAME *</label>
+                        <input type="text" required class="w-full bg-navy-900 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-neon">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-mono text-gray-300 mb-1">STUDENT REG NO. *</label>
+                        <input type="text" required placeholder="BIT/CS/2026/000" class="w-full bg-navy-900 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-neon">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-mono text-gray-300 mb-1">EMAIL ADDRESS *</label>
+                        <input type="email" required class="w-full bg-navy-900 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-neon">
+                    </div>
+                    <button type="submit" class="w-full py-3.5 rounded-xl bg-neon text-black font-extrabold text-sm hover:opacity-90">Submit Application</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 9. CONTACT TAB -->
+        <section id="tab-contact" class="tab-content space-y-8">
+            <div class="max-w-xl mx-auto glass-panel p-8 rounded-3xl space-y-6">
+                <h1 class="text-3xl font-extrabold text-white">Contact Us</h1>
+                <p class="text-sm text-gray-400">Official Email: <span class="text-neon font-mono">cybershield@baobab.ac.tz</span></p>
+                <form onsubmit="handleFormSubmit(event)" class="space-y-4">
+                    <input type="text" required placeholder="Your Name" class="w-full bg-navy-900 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-electric">
+                    <input type="email" required placeholder="Your Email" class="w-full bg-navy-900 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-electric">
+                    <textarea rows="4" required placeholder="Your Message..." class="w-full bg-navy-900 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-electric"></textarea>
+                    <button type="submit" class="w-full py-3 rounded-xl bg-electric text-black font-bold text-sm">Send Message</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 10. 404 TAB -->
+        <section id="tab-404" class="tab-content space-y-6 text-center py-12">
+            <h1 class="text-6xl font-black text-red-500 font-mono">404</h1>
+            <h2 class="text-2xl font-bold text-white">ROUTE NOT FOUND</h2>
+            <button onclick="switchTab('home')" class="px-6 py-2.5 rounded-xl bg-neon text-black font-bold text-sm">Return Home</button>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="relative z-10 glass-panel border-t border-gray-800/80 py-6 text-center text-xs text-gray-400">
+        &copy; 2026 BIT Cyber Shield Club | Baobab Institute of Tanzania. All Rights Reserved.
+    </footer>
+
+    <!-- INTERACTIVE SCRIPT LOGIC -->
+    <script>
+        function switchTab(tabId) {
+            const tabs = document.querySelectorAll('.tab-content');
+            let target = document.getElementById('tab-' + tabId);
+            if (!target) target = document.getElementById('tab-404');
+
+            tabs.forEach(t => t.classList.remove('active'));
+            target.classList.add('active');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('text-neon', 'font-bold'));
+            const activeNav = document.getElementById('nav-' + tabId);
+            if (activeNav) activeNav.classList.add('text-neon', 'font-bold');
+
+            document.getElementById('mobileMenu').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        });
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            alert('Form submitted successfully!');
+            e.target.reset();
+        }
+
+        const searchInput = document.getElementById('resourceSearch');
+        if (searchInput) {
+            searchInput.addEventListener('keyup', (e) => {
+                const query = e.target.value.toLowerCase();
+                document.querySelectorAll('.resource-card').forEach(card => {
+                    const text = card.innerText.toLowerCase() + card.getAttribute('data-keywords');
+                    card.style.display = text.includes(query) ? 'block' : 'none';
+                });
+            });
+        }
+
+        const canvas = document.getElementById('cyberCanvas');
+        const ctx = canvas.getContext('2d');
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const chars = '01BITCYBER';
+        const fontSize = 14;
+        const drops = Array(Math.floor(window.innerWidth / fontSize)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(3, 5, 9, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00ff88';
+            ctx.font = `${fontSize}px monospace`;
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 35);
+    </script>
+</body>
+</html>
